@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="components/js/gsap.min.js"></script>
+<script src="components/js/ScrollTrigger.min.js"></script>
+<script src="components/js/Flip.min.js"></script>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&display=swap');
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: sans-serif;
+    }
+    .container {
+        max-width: 600px;
+        margin: 200px auto;
+    }
+    .imgGal {
+        display: grid;
+        grid-template-columns: repeat(9, 1fr);
+        grid-template-rows: repeat(9, 1fr);
+        grid-column-gap: 15px;
+        grid-row-gap: 15px;
+        aspect-ratio: 1/1;
+    }
+    figure {
+        position: relative;
+    }
+    figure[data-grid="1"] { grid-area: 1 / 1 / 7 / 7; }
+    figure[data-grid="2"] { grid-area: 1 / 7 / 4 / 10; }
+    figure[data-grid="3"] { grid-area: 4 / 7 / 7 / 10; }
+    figure[data-grid="4"] { grid-area: 7 / 1 / 10 / 4; }
+    figure[data-grid="5"] { grid-area: 7 / 4 / 10 / 7; }
+    figure[data-grid="6"] { grid-area: 7 / 7 / 10 / 10; }
+
+    figure img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        position: absolute;
+        object-fit: cover;
+    }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="imgGal">
+      <figure data-grid="1">
+          <img src="https://source.unsplash.com/collection/3578257/1">
+      </figure>
+      <figure data-grid="2">
+          <img src="https://source.unsplash.com/collection/3578257/2">
+      </figure>
+      <figure data-grid="3">
+          <img src="https://source.unsplash.com/collection/3578257/4">
+      </figure>   
+      <figure data-grid="4">
+          <img src="https://source.unsplash.com/collection/3578257/5">
+      </figure>  
+      <figure data-grid="5">
+          <img src="https://source.unsplash.com/collection/3578257/6">
+      </figure>
+      <figure data-grid="6">
+          <img src="https://source.unsplash.com/collection/3578257/7">
+      </figure>                          
+  </div>
+</div>
+
+<script>
+  gsap.registerPlugin(ScrollTrigger, Flip);
+
+  let dogs = gsap.utils.toArray("figure");
+  let bigDog = dogs[0];
+
+  dogs.forEach((dog) => {
+    dog.addEventListener("click", (e) => changeDog(dog));
+  })
+
+  function changeDog(dog) {
+    if(dog === bigDog) return;
+
+    let state = Flip.getState(dogs);
+
+    bigDog.dataset.grid = dog.dataset.grid;
+    dog.dataset.grid = '1';
+    bigDog = dog;
+
+    Flip.from(state, {
+        absolute: true,
+        ease: 'Power1.inOut'
+    })
+
+  }
+</script>
+
+</body>
+</html>
+
